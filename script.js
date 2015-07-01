@@ -1,35 +1,44 @@
 $(document).ready(function() {
 
-	var $newItemForm = $("#new_todo_item");
+  var $newItemForm = $("#new_todo_item");
 
-	$newItemForm.on("submit", function(event){
-		event.preventDefault();
+  $newItemForm.on("submit", function(event){
+    event.preventDefault();
 
-		// add new item to view
-		var $newLI = $('<li class="item">' + $("#item_name").val() + '</li>');
-		$('#todo_list').append($newLI);
-		$newLI.click(itemClicked);
+    // add new item to view
+    var input = {name: $("#item_name").val(), desc: $("#item_desc").val()}
+    var $inputItem = $(listTemplate(input));
+    $inputItem.click(itemClicked);
+    $('#todo_list').append($inputItem);
 
-		// add new item description to view
-		var $newListDesc = $('<dd>' + $("#item_desc").val() + '</dd>');
-		$newLI.append($newListDesc);
+    // add new item and description to model
+    hardTodo.push(input);
 
-		// add new item and description to model
-		todoList.push({
-			item_name: $("#item_name").val(),
-			item_desc: $("#item_desc").val()
-		});
+    $("#item_name").val("");
+    $("#item_desc").val("");
 
-		$("#item_name").val("");
-		$("#item_desc").val("");
+  });
 
-	});
+  var itemClicked = function() {
+    $(this).addClass("done");
+  };
 
-	var todoList = [];
+  var listTemplate = _.template($('#list-template').html());
 
-	var itemClicked = function() {
-		$(this).addClass("done");
-	};
+  var hardTodo = [
+  {name: "Laundry", desc: "Wash Sheets"},
+  {name: "Buy groceries", desc: "Yogurt, bread, apples"},
+  {name: "Buy cat food", desc: "Dry and wet"}
+  ];
 
-	$( ".item" ).click(itemClicked);
+  var $todo_list = $("#todo_list");
+
+  _.each(hardTodo, function (seed, index) {
+    var $seed = $(listTemplate(seed));
+    $seed.attr('data-index', index);
+    $todo_list.append($seed);
+  });
+
+
+  $( ".seed" ).click(itemClicked);
 });
