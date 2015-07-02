@@ -5,16 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>To Do List</title>
 
-  <!-- Latest compiled and minified CSS -->
+  <!-- bootstrap css -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-
-  <!-- Optional theme -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-
-  <!-- Latest compiled and minified JavaScript -->
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
   <!-- custom styles -->
   <link rel="stylesheet" type="text/css" href="style.css">
@@ -45,22 +37,24 @@
     </div>
 
     <!-- jquery -->
-    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 
-    <!-- Latest compiled and minified Bootstrap JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!-- bootstrap js -->
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
     <!-- underscore -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 
     <!-- underscore template -->
     <script type="text/template" id="list-template">
-    <div class="seed">
-    <p>
-    <%= name %> - <%= desc %>
-    </p>
-    <hr>
-    </div>
+      <div class="todo">
+        <p>
+          <span class="todo-text"><%= name %> - <%= desc %></span>
+          &nbsp;
+        <button type="button" class="close delete" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </p>
+        <hr>
+      </div>
     </script>
 
     <!-- custom script -->

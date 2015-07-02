@@ -1,44 +1,64 @@
 $(document).ready(function() {
 
   var $newItemForm = $("#new_todo_item");
+  var $todo_list = $("#todo_list");
+
+  var listTemplate = _.template($('#list-template').html());
+
+  var itemClicked = function() {
+    $(this).toggleClass("done");
+  };
+
+  var Todo = function(name, desc) {
+    this.name = name;
+    this.desc = desc;
+  };
+
+  Todo.all = [];
+
+  Todo.prototype.save = function() {
+      Todo.all.push(this);
+  };
+
+  Todo.prototype.render = function(index) {
+    var htmlString = listTemplate(this);
+    var $todo = $(htmlString);    
+    $todo.attr('data-index', index);
+    $todo_list.append($todo);
+    $todo.click(itemClicked);
+  }
 
   $newItemForm.on("submit", function(event){
     event.preventDefault();
 
-    // add new item to view
-    var input = {name: $("#item_name").val(), desc: $("#item_desc").val()}
-    var $inputItem = $(listTemplate(input));
-    $inputItem.click(itemClicked);
-    $('#todo_list').append($inputItem);
+    var toDoName = $("#item_name").val();
+    var toDoDesc = $("#item_desc").val();
 
-    // add new item and description to model
-    hardTodo.push(input);
+    if(toDoName == "" || toDoDesc == "") {
+      alert("Please add a to-do!");
+      return;
+    }
+
+    var input = new Todo(toDoName, toDoDesc);
+
+    // // add new item and description to model
+    Todo.all.push(input);
+
+    var index = Todo.all.indexOf(input);
+    input.render(index);
 
     $("#item_name").val("");
     $("#item_desc").val("");
-
   });
 
-  var itemClicked = function() {
-    $(this).addClass("done");
-  };
+  var todo1 = new Todo("Laundry", "Wash sheets");
+  todo1.save();
+  var todo2 = new Todo("Buy groceries", "Yogurt, bread, apples");
+  todo2.save();
+  var todo3 = new Todo("buy cat food", "dry and wet");
+  todo3.save();
 
-  var listTemplate = _.template($('#list-template').html());
-
-  var hardTodo = [
-  {name: "Laundry", desc: "Wash Sheets"},
-  {name: "Buy groceries", desc: "Yogurt, bread, apples"},
-  {name: "Buy cat food", desc: "Dry and wet"}
-  ];
-
-  var $todo_list = $("#todo_list");
-
-  _.each(hardTodo, function (seed, index) {
-    var $seed = $(listTemplate(seed));
-    $seed.attr('data-index', index);
-    $todo_list.append($seed);
+  _.each(Todo.all, function(todo, index){
+    todo.render(index);
   });
-
-
-  $( ".seed" ).click(itemClicked);
 });
